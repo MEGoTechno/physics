@@ -1,0 +1,68 @@
+@media (max-width: 600px) {
+    .css-3krtj3-MuiPaper-root-MuiDataGrid-paper {
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .css-1t5wrdm-MuiDataGrid-filterForm {
+        flex-direction: column;
+    }
+}
+
+.gradient {
+    width: '180px';
+    height: 18px;
+    background: linear-gradient(to right, #fdc830, #f37335);
+    border-radius: 8px;
+}
+
+
+.css-heg063-MuiTabs-flexContainer {
+    display: 'flex';
+    justify-content: "center";
+}
+
+::-webkit-scrollbar {
+    width: 4px !important;
+    opacity: .4 !important;
+}
+
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffe3a3;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+}
+
+
+
+@keyframes getIntoRt {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes getIntoLt {
+    0% {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
