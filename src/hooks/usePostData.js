@@ -1,35 +1,33 @@
 import { useDispatch } from 'react-redux'
 import { setGlobalMsg, setUser } from '../toolkit/globalSlice'
 
-export default function usePostData(sendData, formOptions, setFormOptions) {
+export default function usePostData(sendData) {
   const dispatch = useDispatch()
   let data
 
-  const trigger = (values, dataType, params) => {
-    if (values) {
-      data = values
-    } else {
-      data = formOptions?.values
-    }
+  const trigger = (values, isMultiPart, params) => {
 
+    data = values
+
+    // removing spacing
     Object.keys(data).forEach(key => {
-      if (data[key] !== "_id" && !data?._id) {
+      if ((data[key] !== "_id" || data[key] !== "id") && !data?._id) {
         if (typeof data[key] === "string") {
           data[key] = data[key].trim()
         }
       }
     })
-
+    // if multipart request into multer ...
     let formData = data
-    if (dataType) {
+    if (isMultiPart) {
       formData = new FormData()
       Object.keys(data).forEach(key => formData.append(key, data[key]))
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
 
-      sendData(formData, params).then(res => {
-        // console.log(res)
+      try {
+        const res = await sendData(formData, params)
 
         if (res.error) {
           // error ===> invalid jwt or not user
@@ -37,37 +35,21 @@ export default function usePostData(sendData, formOptions, setFormOptions) {
             dispatch(setUser(null))
             return;
           }
-
-          if (formOptions) {
-            // error in form
-            setFormOptions({
-              isLoading: false, isDone: true, isError: true, values: null, doneMessage: res.error.data.message
-            })
-          }
           //global error 
-          dispatch(setGlobalMsg({ message: res.error.data.message, severity: "error" }))
+          dispatch(setGlobalMsg({ message: res?.error?.data?.message || res?.error?.message, severity: "error" }))
           return;
         }
 
         // in success
-        if (formOptions) {
-          setFormOptions({
-            doneMessage: res.data.message, isLoading: false, isDone: true, isError: false, values: null
-          })
+        if (res.data?.message) {
+          dispatch(setGlobalMsg({ message: res.data?.message, severity: "success" }))
         }
-        dispatch(setGlobalMsg({ message: res.data.message, severity: "success" }))
-
         resolve(res?.data?.values)
 
-        // in error in fc
-      }).catch((error) => {
+      } catch (error) {
         dispatch(setGlobalMsg({ message: error.message, severity: "error" }))
-        setFormOptions({
-          isLoading: false, isDone: true, isError: true, values: null, doneMessage: error.message
-        })
-      })
-
-
+        reject(error)
+      }
     })
   }
 
