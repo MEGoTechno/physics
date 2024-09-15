@@ -47,7 +47,6 @@ export default function usePostData(sendData) {
         resolve(res?.data?.values)
 
       } catch (error) {
-        console.log(error)
         dispatch(setGlobalMsg({ message: error?.message || 'connection confused', severity: "error" }))
         reject(error)
       }
