@@ -19,6 +19,8 @@
       background-color: cyan;
       border-radius: 5px;
       animation: full 5s linear forwards;
+      animation-timeline: view();
+      animation-range: entry 0% cover 60%;
   }
 
   .delay-1::before {

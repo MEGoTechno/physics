@@ -26,8 +26,8 @@ function NotLogged() {
     //"linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)"
     //'linear-gradient(to right, #fdc830, #f37335)'
     const mr = 'م'
-    const mahmoud = 'محمود'
-    const elawadii = 'العوضى'
+    const mahmoud = 'أحمد'
+    const elawadii = 'عادل'
     return (
         <Box position={'relative'} >
             <ImageBg img={'/images/bg-polygons.webp'}>
